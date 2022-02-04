@@ -12,7 +12,8 @@ import {
 } from 'react-native';
 
 const MyCustomPost = () => {
-  const [fbShareURL, setfbShareURL] = useState('https://reactnativecode.com');
+  //   const [fbShareURL, setfbShareURL] = useState('https://reactnativecode.com');
+  const [fbShareURL, setfbShareURL] = useState('');
   const [content, setContent] = useState('Hello, Welcome To our Website.');
 
   const publishOnFB = () => {
@@ -21,6 +22,14 @@ const MyCustomPost = () => {
     if (content) params.push('quote=' + encodeURI(content));
     const url =
       'https://www.facebook.com/sharer/sharer.php?' + params.join('&');
+
+    // const url =
+    //   'https://www.facebook.com/sharer.php?display=page&u=https://developers.facebook.com?' +
+    //   params.join('&');
+
+    // const url =
+    //   'https://www.facebook.com/sharer.php?display=page&quote=' +
+    //   params.join('&');
 
     Linking.openURL(url)
       .then((data) => {
