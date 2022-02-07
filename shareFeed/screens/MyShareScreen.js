@@ -9,20 +9,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
 import * as Sharing from 'expo-sharing';
-import file from '../assets/base64';
-//import file from '../assets/adaptive-icon.png';
-
-const url = 'https://awesome.contents.com/';
-const title = 'Awesome Contents';
-const message = 'Please check this out.';
-
-const options = {
-  title,
-  url,
-  message,
-};
 
 const MyShareScreen = ({ imageData }) => {
   // const [image, setImage] = React.useState(
@@ -31,59 +18,49 @@ const MyShareScreen = ({ imageData }) => {
 
   console.log(imageData);
   //const [image, setImage] = React.useState('');
-
-  let [selectedImage, setSelectedImage] = React.useState('../assets/logo.jpg');
-  useEffect(() => {
-    //setSelectedImage(imageData);
-    setSelectedImage({ localUri: imageData });
-  }, [imageData]);
-  console.log(imageData);
-
-  //   let openImagePickerAsync = async () => {
-  //     let permissionResult =
-  //       await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-  //     if (permissionResult.granted === false) {
-  //       alert('Permission to access camera roll is required!');
-  //       return;
-  //     }
-
-  //     let pickerResult = await ImagePicker.launchImageLibraryAsync();
-  //     if (pickerResult.cancelled === true) {
-  //       return;
-  //     }
-
-  //     setSelectedImage({ localUri: pickerResult.uri });
-  //   };
+  let [pickerImage, setPickerImage] = React.useState('');
+  let [selectedImage, setSelectedImage] = React.useState('');
 
   let openShareDialogAsync = async () => {
+    console.log('called');
     if (!(await Sharing.isAvailableAsync())) {
       alert(`Uh oh, sharing isn't available on your platform`);
       return;
     }
-
     await Sharing.shareAsync(selectedImage.localUri);
   };
+
+  useEffect(() => {
+    //setSelectedImage(imageData);
+    setSelectedImage({ localUri: imageData });
+    //openShareDialogAsync(selectedImage);
+  }, [imageData]);
 
   return (
     <>
       <View style={styles.container}>
         <Text>My screen share!</Text>
         <StatusBar style='auto' />
-        {/* <Image
-          source={{
-            uri: image,
-          }}
-          style={{ ...styles.containerImg, ...styles.stretchImg }}
-        /> */}
+
         <Image
           source={{ uri: selectedImage.localUri }}
-          style={styles.thumbnail}
+          style={{ ...styles.containerImg, ...styles.stretchImg }}
         />
-        {/* <Text>{image}</Text> */}
+
         <View style={{ marginVertical: 5 }}>
-          <Button onPress={openShareDialogAsync} title='Share Image' />
+          {imageData && (
+            <Button onPress={openShareDialogAsync} title='Share Image' />
+          )}
+          {/* {imageData && (
+            <Button onPress={onShareImageUpdate} title='Share Image' />
+          )} */}
         </View>
+        {/* <View>
+          <Button
+            onPress={openImagePickerAsync}
+            title='Select Image from Gallery'
+          />
+        </View> */}
       </View>
     </>
   );

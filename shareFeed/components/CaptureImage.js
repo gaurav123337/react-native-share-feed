@@ -57,7 +57,7 @@ const CaptureImage = ({ navigation }) => {
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
+      allowsEditing: false,
       aspect: [1, 1],
       quality: 1,
     });
@@ -83,8 +83,7 @@ const CaptureImage = ({ navigation }) => {
         <Button title={'Take Picture'} onPress={takePicture} />
         <Button title={'Gallery'} onPress={pickImage} />
         {imageUri && <Image source={{ uri: imageUri }} style={{ flex: 1 }} />}
-        {imageUri && <MyShareScreen imageData={imageUri} />}
-        {/* <ImageShareTest /> */}
+        {imageUri ? <MyShareScreen imageData={imageUri} /> : <MyShareScreen />}
       </View>
     </ScrollView>
   );
