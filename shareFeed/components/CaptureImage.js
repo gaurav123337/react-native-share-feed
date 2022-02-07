@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  Image,
+  ScrollView,
+} from 'react-native';
 import { Camera } from 'expo-camera';
 import * as Contacts from 'expo-contacts';
 import { Gyroscope } from 'expo-sensors';
 import * as ImagePicker from 'expo-image-picker';
+
+import MyShareScreen from '../screens/MyShareScreen';
+import ImageShareTest from './ImageShareTest';
 
 const CaptureImage = ({ navigation }) => {
   const [cameraPermission, setCameraPermission] = useState(null);
@@ -59,20 +69,24 @@ const CaptureImage = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.cameraContainer}>
-        <Camera
-          ref={(ref) => setCamera(ref)}
-          style={styles.fixedRatio}
-          type={type}
-          ratio={'1:1'}
-        />
-      </View>
+    <ScrollView>
+      <View style={styles.container}>
+        <View style={styles.cameraContainer}>
+          <Camera
+            ref={(ref) => setCamera(ref)}
+            style={styles.fixedRatio}
+            type={type}
+            ratio={'1:1'}
+          />
+        </View>
 
-      <Button title={'Take Picture'} onPress={takePicture} />
-      <Button title={'Gallery'} onPress={pickImage} />
-      {imageUri && <Image source={{ uri: imageUri }} style={{ flex: 1 }} />}
-    </View>
+        <Button title={'Take Picture'} onPress={takePicture} />
+        <Button title={'Gallery'} onPress={pickImage} />
+        {imageUri && <Image source={{ uri: imageUri }} style={{ flex: 1 }} />}
+        {imageUri && <MyShareScreen imageData={imageUri} />}
+        {/* <ImageShareTest /> */}
+      </View>
+    </ScrollView>
   );
 };
 
@@ -81,8 +95,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   cameraContainer: {
-    flex: 1,
+    //flex: 1,
     flexDirection: 'row',
+    height: 150,
+    marginTop: 100,
   },
   fixedRatio: {
     flex: 1,
